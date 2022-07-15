@@ -6,7 +6,6 @@ namespace FoodDeliveryAPI.Interfaces
     {
         List<OrderDTO> GetAllOrders();
 
-        OrderDTO AddNewOrder(OrderDTO orderDTO);
 
         void DeleteOrder(long id);
 
@@ -22,6 +21,7 @@ namespace FoodDeliveryAPI.Interfaces
         OrderDTO UpdateOrder(OrderDTO orderDTO, long id);
 
 
+        OrderDTO AddNewOrder(NewOrderDTO orderDTO);
         OrderDTO TakeOrder(long orderId, long delivererId);
 
         OrderDTO OrderIsDelivered(long orderId);

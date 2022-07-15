@@ -1,4 +1,5 @@
 ﻿using FoodDeliveryAPI.Models;
+using System.Text.Json.Serialization;
 
 namespace FoodDeliveryAPI.DTO
 {
@@ -12,6 +13,6 @@ namespace FoodDeliveryAPI.DTO
         public string PhotoUrl { get; set; }
         public string Ingredients { get; set; }
 
-        public List<Order> Orders { get; set; }
+        //public List<Order> Orders { get; set; }
     }
 }

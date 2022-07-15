@@ -1,5 +1,6 @@
 ﻿using FoodDeliveryAPI.DTO;
 using FoodDeliveryAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace FoodDeliveryAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "administrator")]
         public IActionResult GetAllVerificationRequests()
         {
             try
@@ -36,6 +38,7 @@ namespace FoodDeliveryAPI.Controllers
         //}
 
         [HttpPut("verify/{id}")]
+        [Authorize(Roles = "administrator")]
         public IActionResult AcceptRegistrationRequest(long id)
         {
             try
@@ -51,6 +54,7 @@ namespace FoodDeliveryAPI.Controllers
         }
 
         [HttpPut("refuseVerification/{id}")]
+        [Authorize(Roles = "administrator")]
         public IActionResult RefuseRegistrationRequest(long id)
         {
             try

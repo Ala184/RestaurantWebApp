@@ -15,6 +15,8 @@ namespace FoodDeliveryAPI.DTO
         public string TypeOfUser { get; set; }
         public string PhotoUrl { get; set; }
         public int Verified { get; set; }
-        public List<Order> Orders { get; set; }
+
+        public int Registered { get; set; }
+        public List<OrderDTO> Orders { get; set; }
     }
 }

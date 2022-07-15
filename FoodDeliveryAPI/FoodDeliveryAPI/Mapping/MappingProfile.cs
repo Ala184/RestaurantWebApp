@@ -18,6 +18,7 @@ namespace FoodDeliveryAPI.Mapping
 
 
             CreateMap<Order, OrderDTO>().ReverseMap();
+            CreateMap<Order, NewOrderDTO>().ReverseMap();
         }
     }
 }

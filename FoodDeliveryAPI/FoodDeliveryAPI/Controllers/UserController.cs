@@ -42,24 +42,28 @@ namespace FoodDeliveryAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "administrator")]
         public async Task<ActionResult<List<UserFullDTO>>> GetAllUsers()
         {
             return Ok(_userService.GetAllUsers());
         }
 
         [HttpGet("deliverers")]
+        [Authorize(Roles = "administrator")]
         public async Task<ActionResult<List<UserFullDTO>>> GetAllDeliverers()
         {
             return Ok(_userService.GetAllDeliverers());
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "administrator, dostavljac, potrosac")]
         public IActionResult GetUserById(long id)
         {
             return Ok(_userService.GetUserById(id));
         }
 
         [HttpGet("profile/{username}")]
+        [Authorize(Roles = "administrator, dostavljac, potrosac")]
         public IActionResult GetUserByUsername(string username)
         {
             try
@@ -73,6 +77,7 @@ namespace FoodDeliveryAPI.Controllers
         }
 
         [HttpPut("update/{id}")]
+        [Authorize(Roles = "administrator, dostavljac, potrosac")]
         public IActionResult UpdateUser([FromBody] UserFullDTO newUserData, long id)
         {
             int o = 0;
@@ -88,6 +93,7 @@ namespace FoodDeliveryAPI.Controllers
         }
 
         [HttpPut("changePassword")]
+        [Authorize(Roles = "administrator, potrosac, dostavljac")]
         public IActionResult ChangePassword([FromBody] ChangePasswordDTO dto)
         {
             try
@@ -100,42 +106,17 @@ namespace FoodDeliveryAPI.Controllers
             }
         }
 
-
-        [HttpGet("nesto-administratorsko")]
-        [Authorize(Roles = "administrator")]
-        public IActionResult NestoAdministratorsko()
-        {
-            return Ok("Administrator si i mozes da vidis ovo, bravo za tebe!");
-        }
-
-        [HttpGet("nesto-potrosacko")]
-        [Authorize(Roles = "potrosac")]
-        public IActionResult NestoPotrosacko()
-        {
-            return Ok("Potrosac si i mozes da vidis ovo, bravo za tebe!");
-        }
-
-        [HttpGet("nesto-dostavljacko")]
-        [Authorize(Roles = "dostavljac")]
-        public IActionResult NestoDostavljacko()
-        {
-            return Ok("Dostavljac si i mozes da vidis ovo, bravo za tebe!");
-        }
-
-        [HttpGet("posalji-mejl")]
-        public IActionResult SaljiMejl()
+        [HttpGet("checkIfApproved/{id}")]
+        public IActionResult CheckIfApproved(long id)
         {
             try
             {
-                _userService.SendMailServiceTest();
-                return Ok("Mejl je poslat");
+                return Ok(_userService.CheckIfApproved(id));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
-
-
     }
 }

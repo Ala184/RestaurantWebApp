@@ -12,7 +12,7 @@ namespace FoodDeliveryAPI.Models
         public string PhotoUrl { get; set; }
         public string Ingredients { get; set; }
 
-        public List<Order> Orders { get; set; }
+        public List<Order>? Orders { get; set; }
 
     }
 }

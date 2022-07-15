@@ -16,7 +16,7 @@ namespace FoodDeliveryAPI.Models
         public string PhotoUrl { get; set; }
 
         public int Registered { get; set; } // 0 - waiting registration; 1 - registered; 2 - declined; 3 - user is deliverer
-        public int Verified { get; set; }  //1 - waiting verification; 1 - verified; 2 - declined; 3 - user is consumer
+        public int Verified { get; set; }  //0 - waiting verification; 1 - verified; 2 - declined; 3 - user is consumer
 
         [JsonIgnore]
         public List<Order> Orders { get; set; }

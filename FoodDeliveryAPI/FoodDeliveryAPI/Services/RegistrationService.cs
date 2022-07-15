@@ -10,11 +10,13 @@ namespace FoodDeliveryAPI.Services
     {
         private readonly IMapper _mapper;
         private readonly FoodDeliveryDbContext _dbContext;
+        private readonly IEmailSender _emailSender;
 
-        public RegistrationService(IMapper mapper, FoodDeliveryDbContext dbContext)
+        public RegistrationService(IMapper mapper, FoodDeliveryDbContext dbContext, IEmailSender emailSender)
         {
             _mapper = mapper;
             _dbContext = dbContext;
+            _emailSender = emailSender; 
         }
 
         public List<RegistrationRequestDTO> GetAllRegistrationRequests()
@@ -31,6 +33,9 @@ namespace FoodDeliveryAPI.Services
             if (user.Registered != 1)
             {
                 user.Registered = 1;
+                string subject = "FoodDeliveryAPP - Registration info";
+                string message = $"Poštovani {user.Username}, vaš zahtev za registraciju je odobren. Hvala na poverenju.";
+                _emailSender.SendMail(subject, message, user.Email);
                 _dbContext.SaveChanges();
             }
             return _mapper.Map<RegistrationRequestDTO>(user);
@@ -41,7 +46,10 @@ namespace FoodDeliveryAPI.Services
             User user = _dbContext.Users.Find(id);
             if (user.Registered != 2)
             {
-                user.Registered = 2;
+                user.Registered = 2; 
+                string subject = "FoodDeliveryAPP - Registration info";
+                string message = $"Poštovani {user.Username}, vaš zahtev za registraciju je odbijen. Za više informacija kontaktirajte +38166111222.";
+                _emailSender.SendMail(subject, message, user.Email);
                 _dbContext.SaveChanges();
             }
             return _mapper.Map<RegistrationRequestDTO>(user);

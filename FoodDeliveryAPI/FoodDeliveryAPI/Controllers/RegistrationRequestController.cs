@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using FoodDeliveryAPI.Interfaces;
 using FoodDeliveryAPI.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FoodDeliveryAPI.Controllers
 {
@@ -17,6 +18,7 @@ namespace FoodDeliveryAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "administrator")]
         public IActionResult GetAllRegistrationRequests()
         {
             try
@@ -30,12 +32,14 @@ namespace FoodDeliveryAPI.Controllers
         }
 
         [HttpPut("accept/{id}")]
+        [Authorize(Roles = "administrator")]
         public IActionResult AcceptRegistrationRequest(long id)
         {
             return Ok(_registrationRequestService.AcceptRegistrationRequest(id));
         }
 
         [HttpPut("decline/{id}")]
+        [Authorize(Roles = "administrator")]
         public IActionResult DeclineRegistrationRequest(long id)
         {
             return Ok(_registrationRequestService.DeclineRegistrationRequest(id));

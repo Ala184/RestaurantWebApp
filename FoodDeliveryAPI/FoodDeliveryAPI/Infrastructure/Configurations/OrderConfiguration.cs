@@ -19,8 +19,8 @@ namespace FoodDeliveryAPI.Infrastructure.Configurations
                    .HasForeignKey(x=>x.UsersId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(x => x.Products);
-            //.WithMany(x => x.Orders);
+            //builder.HasMany(x => x.Products)
+            //       .WithMany(x => x.Orders);
 
             builder.Property(x => x.DelivererId).HasDefaultValue(0);
 

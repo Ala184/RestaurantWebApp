@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
+using FoodDeliveryAPI.Common;
 using FoodDeliveryAPI.DTO;
 using FoodDeliveryAPI.Infrastructure;
 using FoodDeliveryAPI.Interfaces;
 using FoodDeliveryAPI.Models;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
+using MimeKit.Text;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 
@@ -17,11 +20,14 @@ namespace FoodDeliveryAPI.Services
         private readonly IMapper _mapper;
         private readonly FoodDeliveryDbContext _dbContext;
         private readonly IConfigurationSection _secretKey;
-        public UserService(IConfiguration config,IMapper mapper, FoodDeliveryDbContext dbContext)
+        private readonly IEmailSender _emailSender;
+
+        public UserService(IConfiguration config,IMapper mapper, FoodDeliveryDbContext dbContext, IEmailSender emailSender)
         {
             _mapper = mapper;
             _dbContext = dbContext;
             _secretKey = config.GetSection("SecretKey");
+            _emailSender = emailSender;
         }       
         public string Login(UserDTO dto, out UserDTO userData)
         {
@@ -32,6 +38,16 @@ namespace FoodDeliveryAPI.Services
             {
                 return null;
             }
+
+            //if (user.TypeOfUser.Equals("dostavljac") && user.Verified != 1)
+            //{
+            //    return null;
+            //}
+
+            //if (user.TypeOfUser.Equals("potrosac") && user.Registered != 1)
+            //{
+            //    return null;
+            //}
 
             if (BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
             {
@@ -112,14 +128,14 @@ namespace FoodDeliveryAPI.Services
             {
                 user.Username = userDTO.Username;
                 user.Email = userDTO.Email;
-                user.Password = BCrypt.Net.BCrypt.HashPassword(userDTO.Password);
+                //user.Password = BCrypt.Net.BCrypt.HashPassword(userDTO.Password);
                 user.Name = userDTO.Name;
                 user.Surname = userDTO.Surname;
                 user.DateOfBirth = userDTO.DateOfBirth;
                 user.Address = userDTO.Address;
-                user.TypeOfUser = userDTO.TypeOfUser;
+                //user.TypeOfUser = userDTO.TypeOfUser;
                 user.PhotoUrl = userDTO.PhotoUrl;
-                user.Orders = userDTO.Orders;
+                //user.Orders = userDTO.Orders;
 
                 _dbContext.SaveChanges();
             }
@@ -152,6 +168,9 @@ namespace FoodDeliveryAPI.Services
                     user.Registered = 0;
                 }
                 _dbContext.Users.Add(user);
+                string subject = "FoodDeliveryAPP - Registration info";
+                string message = $"Poštovani {user.Username}, vaš zahtev za registraciju je zaprimljen. Molimo vas sačekajte da bude odobren od stane administratora.";
+                _emailSender.SendMail(subject, message, user.Email);
                 _dbContext.SaveChanges();
             }
             return _mapper.Map<RegistrationDTO>(user);
@@ -162,7 +181,7 @@ namespace FoodDeliveryAPI.Services
             User user = _dbContext.Users.Find(changePasswordDTO.Id);
             if (user != null)
             {
-                if(user.Password == BCrypt.Net.BCrypt.HashPassword(changePasswordDTO.OldPassword))
+                if (BCrypt.Net.BCrypt.Verify(changePasswordDTO.OldPassword, user.Password))
                 {
                     user.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordDTO.NewPassword);
                     _dbContext.SaveChanges();
@@ -171,8 +190,45 @@ namespace FoodDeliveryAPI.Services
             return _mapper.Map<UserFullDTO>(user);
         }
 
-        public void SendMailServiceTest()
+        public bool CheckIfApproved(long id)
         {
+            User user = _dbContext.Users.Find(id);
+            if (user == null)
+            {
+                return false;
+            }
+            if (user.TypeOfUser.Equals("administrator"))
+                return true;
+
+            if (user.TypeOfUser.Equals("dostavljac") && user.Verified.Equals(1))
+                return true;
+
+            if (user.TypeOfUser.Equals("potrosac") && user.Registered.Equals(1))
+                return true;
+
+            return false;
+        }
+
+        public void SendMail(string subject,string text, string usersEmail)
+        {
+
+            // for testing purposes we don't use users email
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse("rocio.legros@ethereal.email")); 
+           // email.To.Add(MailboxAddress.Parse(usersEmail));  
+            email.To.Add(MailboxAddress.Parse("rocio.legros@ethereal.email"));  
+            email.Subject = subject;
+            email.Body = new TextPart(TextFormat.Plain) { Text = text };
+
+            using var smtp = new SmtpClient();
+            smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("rocio.legros@ethereal.email", "yPDStdx86spQ58bcCw");
+            smtp.Send(email);
+            smtp.Disconnect(true);
+
+
+
+
 
            // string api_key = AIzaSyDYSN57e_aMVLON6Tu9xM7OT6FspktIOkE;
 

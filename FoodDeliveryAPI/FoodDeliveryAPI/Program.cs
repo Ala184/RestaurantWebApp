@@ -1,5 +1,6 @@
 
 using AutoMapper;
+using FoodDeliveryAPI.Common;
 using FoodDeliveryAPI.Infrastructure;
 using FoodDeliveryAPI.Interfaces;
 using FoodDeliveryAPI.Mapping;
@@ -86,7 +87,10 @@ var mapperConfig = new MapperConfiguration(mc =>
 });
 IMapper mapper = mapperConfig.CreateMapper();
 
+IEmailSender emailSender = new EmailSender(configuration);
+
 builder.Services.AddSingleton(mapper);
+builder.Services.AddSingleton(emailSender);
 
 builder.Services.AddCors(options =>
 {

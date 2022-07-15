@@ -1,5 +1,6 @@
 ﻿using FoodDeliveryAPI.DTO;
 using FoodDeliveryAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,32 +17,65 @@ namespace FoodDeliveryAPI.Controllers
             _orderService = orderService;
         }
 
+        [HttpPost]
+        [Authorize(Roles = "potrosac")]
+        public IActionResult AddNewOrder([FromBody] NewOrderDTO order)
+        {
+            try
+            {
+                return Ok(_orderService.AddNewOrder(order));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet]
+        [Authorize(Roles = "administrator, dostavljac")] //ovako treba, ako imas vise razlicitih rola 
         public IActionResult GetAllOrders()
         {
-            return Ok(_orderService.GetAllOrders());
+            try
+            {
+                return Ok(_orderService.GetAllOrders());
+            }
+            catch (Exception e)
+            {
+                return BadRequest((string)e.Message);
+            }
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "administrator, dostavljac, potrosac")]
         public IActionResult GetOrderById(long id)
         {
-            return Ok(_orderService.GetOrderById(id));
+            try
+            {
+                return Ok(_orderService.GetOrderById(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("ordersOfUser/{usersId}")]
+        [Authorize(Roles = "administrator, dostavljac, potrosac")]
         public IActionResult GetAllOrdersOfUser(long usersId)
         {
             try
             {
                 return Ok(_orderService.GetAllOrdersOfUser(usersId));
 
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
 
         [HttpGet("deliverersDoneOrders/{deliverersId}")]
+        [Authorize(Roles = "dostavljac")]
         public IActionResult GetDeliverersDoneOrders(long deliverersId)
         {
             try
@@ -56,6 +90,7 @@ namespace FoodDeliveryAPI.Controllers
         }
 
         [HttpGet("deliverersCurrentOrder/{deliverersId}")]
+        [Authorize(Roles = "dostavljac")]
         public IActionResult GetDeliverersCurentOrder(long deliverersId)
         {
             try
@@ -70,6 +105,7 @@ namespace FoodDeliveryAPI.Controllers
         }
 
         [HttpGet("consumersCurrentOrder/{consumersId}")]
+        [Authorize(Roles = "potrosac")]
         public IActionResult GetConsumersCurentOrder(long consumersId)
         {
             try
@@ -85,6 +121,7 @@ namespace FoodDeliveryAPI.Controllers
 
 
         [HttpGet("orderBids")]
+        [Authorize(Roles = "dostavljac")]
         public IActionResult GetOrderBids()
         {
             try
@@ -97,20 +134,10 @@ namespace FoodDeliveryAPI.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult CreateProduct([FromBody] OrderDTO order)
-        {
-            try
-            {
-                return Ok(_orderService.AddNewOrder(order));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }  
+
 
         [HttpPut("takeOrder/{orderId}/{delivererId}")]
+        [Authorize(Roles = "dostavljac")]
         public IActionResult TakeOrder(long orderId, long delivererId)
         {
             try
@@ -129,6 +156,7 @@ namespace FoodDeliveryAPI.Controllers
         }
 
         [HttpPut("orderIsDelivered/{orderId}")]
+        [Authorize(Roles ="dostavljac")]
         public IActionResult OrderIsDelivered(long orderId)
         {
             try

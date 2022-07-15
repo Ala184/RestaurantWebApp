@@ -20,7 +20,9 @@ namespace FoodDeliveryAPI.Interfaces
 
         UserFullDTO ChangePassword(ChangePasswordDTO changePasswordDTO);
 
-        void SendMailServiceTest();
+       // void SendMailServiceTest();
+
+        bool CheckIfApproved(long id);
 
     }
 }

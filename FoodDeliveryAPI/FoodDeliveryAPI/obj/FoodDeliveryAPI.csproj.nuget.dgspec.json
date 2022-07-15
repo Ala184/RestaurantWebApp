@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Stefan Aleksic\\Desktop\\WEB 2\\ProjekatBU\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj": {}
+    "C:\\Users\\Stefan Aleksic\\Documents\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Stefan Aleksic\\Desktop\\WEB 2\\ProjekatBU\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj": {
+    "C:\\Users\\Stefan Aleksic\\Documents\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Stefan Aleksic\\Desktop\\WEB 2\\ProjekatBU\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj",
+        "projectUniqueName": "C:\\Users\\Stefan Aleksic\\Documents\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj",
         "projectName": "FoodDeliveryAPI",
-        "projectPath": "C:\\Users\\Stefan Aleksic\\Desktop\\WEB 2\\ProjekatBU\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj",
+        "projectPath": "C:\\Users\\Stefan Aleksic\\Documents\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj",
         "packagesPath": "C:\\Users\\Stefan Aleksic\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Stefan Aleksic\\Desktop\\WEB 2\\ProjekatBU\\FoodDeliveryAPI\\FoodDeliveryAPI\\obj\\",
+        "outputPath": "C:\\Users\\Stefan Aleksic\\Documents\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -53,6 +53,10 @@
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[3.3.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",

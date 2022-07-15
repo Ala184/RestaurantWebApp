@@ -4,6 +4,7 @@ using FoodDeliveryAPI.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDeliveryAPI.Migrations
 {
     [DbContext(typeof(FoodDeliveryDbContext))]
-    partial class FoodDeliveryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220708182000_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,13 +55,6 @@ namespace FoodDeliveryAPI.Migrations
                     b.Property<double>("DeliveryTime")
                         .HasColumnType("float");
 
-                    b.Property<long?>("ProductId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ProductsIDs")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
@@ -67,8 +62,6 @@ namespace FoodDeliveryAPI.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("UsersId");
 
@@ -99,9 +92,6 @@ namespace FoodDeliveryAPI.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("Products");
                 });
@@ -167,12 +157,23 @@ namespace FoodDeliveryAPI.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.Property<long>("OrdersId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductsId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("OrdersId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("OrderProduct");
+                });
+
             modelBuilder.Entity("FoodDeliveryAPI.Models.Order", b =>
                 {
-                    b.HasOne("FoodDeliveryAPI.Models.Product", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("ProductId");
-
                     b.HasOne("FoodDeliveryAPI.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UsersId")
@@ -182,9 +183,19 @@ namespace FoodDeliveryAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FoodDeliveryAPI.Models.Product", b =>
+            modelBuilder.Entity("OrderProduct", b =>
                 {
-                    b.Navigation("Orders");
+                    b.HasOne("FoodDeliveryAPI.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FoodDeliveryAPI.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FoodDeliveryAPI.Models.User", b =>
