@@ -35,7 +35,7 @@ namespace FoodDeliveryAPI.Services
                 user.Registered = 1;
                 string subject = "FoodDeliveryAPP - Registration info";
                 string message = $"Poštovani {user.Username}, vaš zahtev za registraciju je odobren. Hvala na poverenju.";
-                _emailSender.SendMail(subject, message, user.Email);
+               // _emailSender.SendMail(subject, message, user.Email);
                 _dbContext.SaveChanges();
             }
             return _mapper.Map<RegistrationRequestDTO>(user);
@@ -49,75 +49,11 @@ namespace FoodDeliveryAPI.Services
                 user.Registered = 2; 
                 string subject = "FoodDeliveryAPP - Registration info";
                 string message = $"Poštovani {user.Username}, vaš zahtev za registraciju je odbijen. Za više informacija kontaktirajte +38166111222.";
-                _emailSender.SendMail(subject, message, user.Email);
+                //_emailSender.SendMail(subject, message, user.Email);
                 _dbContext.SaveChanges();
             }
             return _mapper.Map<RegistrationRequestDTO>(user);
-        }
-
-       
-        //public List<RegistrationRequestDTO> GetAllRegistrationRequests()
-        //{
-        //    return _mapper.Map<List<RegistrationRequestDTO>>(_dbContext.RegistrationRequests.ToList());
-        //}
-
-        //public RegistrationRequestDTO GetRegistrationRequestById(long id)
-        //{
-        //    return _mapper.Map<RegistrationRequestDTO>(_dbContext.RegistrationRequests.Find(id));
-        //}
-
-        //public RegistrationRequestDTO AddNewRegistrationRequest(RegistrationRequestDTO registrationDTO)
-        //{
-        //    RegistrationRequest regReq = _mapper.Map<RegistrationRequest>(registrationDTO);
-        //    _dbContext.RegistrationRequests.Add(regReq);
-        //    _dbContext.SaveChanges();
-
-        //    return _mapper.Map<RegistrationRequestDTO>(registrationDTO);
-        //}
-
-        //public void DeleteRegistrationRequest(long id)
-        //{
-        //    RegistrationRequest regReq = _dbContext.RegistrationRequests.Find(id);
-        //    if (regReq != null)
-        //    {
-        //        _dbContext.RegistrationRequests.Remove(regReq);
-        //        _dbContext.SaveChanges();
-        //    }
-        //}
-
-        //public RegistrationRequestDTO UpdateRegistrationRequest(RegistrationRequestDTO registrationDTO, long id)
-        //{
-        //    RegistrationRequest regReq = _dbContext.RegistrationRequests.Find(id);
-        //    if (regReq != null)
-        //    {
-        //        regReq.UserName = registrationDTO.UserName;
-        //        regReq.Status = registrationDTO.Status;
-        //        _dbContext.SaveChanges();
-        //    }
-        //    return _mapper.Map<RegistrationRequestDTO>(regReq);
-        //}
-
-        //public RegistrationRequestDTO AcceptRegistrationRequest(long id)
-        //{
-        //    RegistrationRequest regReq = _dbContext.RegistrationRequests.Find(id);
-        //    if (regReq != null)
-        //    {                
-        //        regReq.Status = 1;
-        //        _dbContext.SaveChanges();
-        //    }
-        //    return _mapper.Map<RegistrationRequestDTO>(regReq);
-        //}
-
-        //public RegistrationRequestDTO DeclineRegistrationRequest(long id)
-        //{
-        //    RegistrationRequest regReq = _dbContext.RegistrationRequests.Find(id);
-        //    if (regReq != null)
-        //    {
-        //        regReq.Status = 2;
-        //        _dbContext.SaveChanges();
-        //    }
-        //    return _mapper.Map<RegistrationRequestDTO>(regReq);
-        //}
+        }      
 
     }
 }

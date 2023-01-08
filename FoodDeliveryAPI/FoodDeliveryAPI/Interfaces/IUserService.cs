@@ -4,7 +4,7 @@ namespace FoodDeliveryAPI.Interfaces
 {
     public interface IUserService
     {
-        string Login(UserDTO dto, out UserDTO userData);
+        string Login(UserDTO dto);
         List<UserFullDTO> GetAllUsers();
 
         List<UserFullDTO> GetAllDeliverers();

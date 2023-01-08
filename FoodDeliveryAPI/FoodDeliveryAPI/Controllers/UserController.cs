@@ -22,12 +22,11 @@ namespace FoodDeliveryAPI.Controllers
         {
             try
             {
-                UserDTO userDto;
-                string token = _userService.Login(dto, out userDto);
+                string token = _userService.Login(dto);
                 if(token == null)
                     return BadRequest("Pogresna lozinka.");
 
-                return Ok(new { Token = token, UserData = userDto });
+                return Ok(new { Token = token});
             }
             catch (Exception e)
             {

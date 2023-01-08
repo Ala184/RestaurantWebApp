@@ -29,25 +29,14 @@ namespace FoodDeliveryAPI.Services
             _secretKey = config.GetSection("SecretKey");
             _emailSender = emailSender;
         }       
-        public string Login(UserDTO dto, out UserDTO userData)
+        public string Login(UserDTO dto)
         {
             User user = _dbContext.Users.First(x => x.Username == dto.Username);
-            userData = _mapper.Map<UserDTO>(user);
 
             if (user.Equals(null))
             {
                 return null;
             }
-
-            //if (user.TypeOfUser.Equals("dostavljac") && user.Verified != 1)
-            //{
-            //    return null;
-            //}
-
-            //if (user.TypeOfUser.Equals("potrosac") && user.Registered != 1)
-            //{
-            //    return null;
-            //}
 
             if (BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
             {
@@ -60,6 +49,10 @@ namespace FoodDeliveryAPI.Services
                 else if (user.TypeOfUser.Equals("dostavljac"))
                     claims.Add(new Claim(ClaimTypes.Role, "dostavljac"));
 
+                claims.Add(new Claim("ID", user.Id.ToString()));
+                claims.Add(new Claim("username", user.Username));
+                claims.Add(new Claim("typeOfUser", user.TypeOfUser));
+
 
                 //Kreiramo kredencijale za potpisivanje tokena. Token mora biti potpisan privatnim kljucem
                 //kako bi se sprecile njegove neovlascene izmene
@@ -70,7 +63,7 @@ namespace FoodDeliveryAPI.Services
                         claims: claims, //claimovi
                         expires: DateTime.Now.AddMinutes(20), //vazenje tokena u minutama
                         signingCredentials: signingCredentials //kredencijali za potpis
-                    );
+                        );
                 string tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
                 return tokenString;
             }
@@ -170,7 +163,7 @@ namespace FoodDeliveryAPI.Services
                 _dbContext.Users.Add(user);
                 string subject = "FoodDeliveryAPP - Registration info";
                 string message = $"Poštovani {user.Username}, vaš zahtev za registraciju je zaprimljen. Molimo vas sačekajte da bude odobren od stane administratora.";
-                _emailSender.SendMail(subject, message, user.Email);
+               // _emailSender.SendMail(subject, message, user.Email);
                 _dbContext.SaveChanges();
             }
             return _mapper.Map<RegistrationDTO>(user);
@@ -224,91 +217,7 @@ namespace FoodDeliveryAPI.Services
             smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
             smtp.Authenticate("rocio.legros@ethereal.email", "yPDStdx86spQ58bcCw");
             smtp.Send(email);
-            smtp.Disconnect(true);
-
-
-
-
-
-           // string api_key = AIzaSyDYSN57e_aMVLON6Tu9xM7OT6FspktIOkE;
-
-            //string[] Scopes = { GmailService.Scope.GmailReadonly };
-
-            //string ApplicationName = "Gmail API .NET Quickstart";
-
-            //try
-            //{
-            //    UserCredential credential;
-            //    using (var stream = new FileStream("credentials.json", FileMode.OpenOrCreate, FileAccess.ReadWrite))
-            //    {
-            //        string credPath = "token.json";
-            //        credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-            //            GoogleClientSecrets.FromStream(stream).Secrets,
-            //            Scopes,
-            //            "user",
-            //            CancellationToken.None,
-            //            new FileDataStore(credPath, true)).Result;
-            //        Console.WriteLine("Credential file saved to: " + credPath);
-
-            //    }
-
-            //    var service = new GmailService(new BaseClientService.Initializer
-            //    {
-            //        HttpClientInitializer = credential,
-            //        ApplicationName = ApplicationName
-            //    });
-
-            //    UsersResource.LabelsResource.ListRequest request = service.Users.Labels.List("me");
-            //    IList<Label> labels = request.Execute().Labels;
-            //    Console.WriteLine("Labels:");
-            //    if (labels == null || labels.Count == 0)
-            //    {
-            //        Console.WriteLine("No labels found.");
-            //        return;
-            //    }
-            //    foreach (var labelItem in labels)
-            //    {
-            //        Console.WriteLine("{0}", labelItem.Name);
-            //    }
-
-
-            //}
-            //catch (FileNotFoundException e)
-            //{
-            //    Console.WriteLine(e.Message);
-            //}
-
-
-            
-
-
-
-
-            //string to = "marko4301@gmail.com"; //To address    
-            //string from = "petarpetrovictest26@gmail.com"; //From address    
-            //MailMessage mail = new MailMessage();
-            //mail.To.Add(to);
-            //mail.From = new MailAddress("petarpetrovictest26@gmail.com", "Email head", Encoding.UTF8);
-            //mail.Subject = "Proba slanja mejla";
-            //mail.SubjectEncoding = Encoding.UTF8;
-            //mail.Body = "Bla BLa Bla";
-            //mail.BodyEncoding = Encoding.UTF8;
-            //mail.IsBodyHtml = true;
-            //mail.Priority = MailPriority.High;
-            //SmtpClient client = new SmtpClient();
-            //client.Host = "smtp.gmail.com";
-            //client.Port = 587;
-            //client.EnableSsl = true;
-            //client.UseDefaultCredentials = false;
-            //client.Credentials = new NetworkCredential("petarpetrovictest26@gmail.com", "testMail123");
-            //try
-            //{
-            //    client.Send(mail);
-            //}
-            //catch (Exception e)
-            //{
-            //    //
-            //}
+            smtp.Disconnect(true);           
         }
     }
 }

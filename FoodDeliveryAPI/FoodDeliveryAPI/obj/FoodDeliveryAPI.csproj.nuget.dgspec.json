@@ -1,21 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Stefan Aleksic\\Documents\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj": {}
+    "C:\\Users\\Stefan Aleksic\\Documents\\GitHub\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Stefan Aleksic\\Documents\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj": {
+    "C:\\Users\\Stefan Aleksic\\Documents\\GitHub\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Stefan Aleksic\\Documents\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj",
+        "projectUniqueName": "C:\\Users\\Stefan Aleksic\\Documents\\GitHub\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj",
         "projectName": "FoodDeliveryAPI",
-        "projectPath": "C:\\Users\\Stefan Aleksic\\Documents\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj",
+        "projectPath": "C:\\Users\\Stefan Aleksic\\Documents\\GitHub\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\FoodDeliveryAPI.csproj",
         "packagesPath": "C:\\Users\\Stefan Aleksic\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Stefan Aleksic\\Documents\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\obj\\",
+        "outputPath": "C:\\Users\\Stefan Aleksic\\Documents\\GitHub\\RestaurantWebApp\\FoodDeliveryAPI\\FoodDeliveryAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\Stefan Aleksic\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -27,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\Microsoft SDKs\\Azure\\.NET SDK\\v2.9\\packages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -82,6 +80,10 @@
               "target": "Package",
               "version": "[6.0.6, )"
             },
+            "Nominatim.API": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
@@ -93,7 +95,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -105,7 +108,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

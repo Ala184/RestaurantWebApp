@@ -16,7 +16,6 @@ namespace FoodDeliveryAPI.Mapping
             CreateMap<User, VerificationDTO>().ReverseMap();
             CreateMap<User, RegistrationRequestDTO>().ReverseMap();
 
-
             CreateMap<Order, OrderDTO>().ReverseMap();
             CreateMap<Order, NewOrderDTO>().ReverseMap();
         }

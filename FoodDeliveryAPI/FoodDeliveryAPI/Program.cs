@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Nominatim.API.Geocoders;
+using Nominatim.API.Interfaces;
+using Nominatim.API.Web;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -89,6 +92,7 @@ IMapper mapper = mapperConfig.CreateMapper();
 
 IEmailSender emailSender = new EmailSender(configuration);
 
+
 builder.Services.AddSingleton(mapper);
 builder.Services.AddSingleton(emailSender);
 
@@ -110,10 +114,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
 app.UseCors("ProductOrigins");
-
 
 app.UseRouting();
 

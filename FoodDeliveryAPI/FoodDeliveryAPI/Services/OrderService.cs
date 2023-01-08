@@ -201,7 +201,7 @@ namespace FoodDeliveryAPI.Services
             return orderDTOs;
         }
 
-        public OrderDTO TakeOrder(long orderId, long delivererId) //provjeriti, al trebalo bi da radi, kao i ova metoda ispod
+        public OrderDTO TakeOrder(long orderId, long delivererId) 
         {
             var undeliveredOrder = _dbContext.Orders.FirstOrDefault(x => x.DelivererId.Equals(delivererId) && x.Delivered.Equals(0));
             if (undeliveredOrder != null)
@@ -217,7 +217,7 @@ namespace FoodDeliveryAPI.Services
             return _mapper.Map<OrderDTO>(order);
         }
 
-        public OrderDTO OrderIsDelivered(long orderId) //provjeriti al trebalo bi da radi, samo sto ne vraca koje proizvode ima
+        public OrderDTO OrderIsDelivered(long orderId)
         {
             var order = _dbContext.Orders.FirstOrDefault(o => o.Id.Equals(orderId));
             if (order != null)
